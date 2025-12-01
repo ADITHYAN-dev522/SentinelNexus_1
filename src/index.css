@@ -1,0 +1,273 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 265 100% 3%;
+    --foreground: 280 30% 98%;
+
+    --card: 270 50% 6%;
+    --card-foreground: 280 30% 98%;
+
+    --popover: 270 50% 5%;
+    --popover-foreground: 280 30% 98%;
+
+    --primary: 280 100% 70%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 320 90% 65%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 270 30% 15%;
+    --muted-foreground: 280 20% 70%;
+
+    --accent: 180 100% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 350 100% 65%;
+    --destructive-foreground: 0 0% 100%;
+
+    --warning: 45 100% 60%;
+    --warning-foreground: 0 0% 10%;
+
+    --success: 160 80% 50%;
+    --success-foreground: 0 0% 100%;
+
+    --info: 200 100% 60%;
+    --info-foreground: 0 0% 100%;
+
+    --border: 270 50% 15%;
+    --input: 270 50% 12%;
+    --ring: 280 100% 70%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 270 60% 4%;
+    --sidebar-foreground: 280 30% 85%;
+    --sidebar-primary: 280 100% 70%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 270 50% 10%;
+    --sidebar-accent-foreground: 280 100% 70%;
+    --sidebar-border: 270 50% 12%;
+    --sidebar-ring: 280 100% 70%;
+
+    --glow-primary: 280 100% 70% / 0.5;
+    --glow-secondary: 320 90% 65% / 0.5;
+    --glow-accent: 180 100% 60% / 0.5;
+    --glow-destructive: 350 100% 65% / 0.4;
+    
+    --gradient-primary: linear-gradient(135deg, hsl(280 100% 70%), hsl(320 90% 65%));
+    --gradient-accent: linear-gradient(135deg, hsl(180 100% 60%), hsl(200 100% 60%));
+    --gradient-mesh: radial-gradient(at 0% 0%, hsl(280 100% 70% / 0.15) 0px, transparent 50%),
+                     radial-gradient(at 100% 0%, hsl(320 90% 65% / 0.12) 0px, transparent 50%),
+                     radial-gradient(at 100% 100%, hsl(180 100% 60% / 0.1) 0px, transparent 50%),
+                     radial-gradient(at 0% 100%, hsl(350 100% 65% / 0.08) 0px, transparent 50%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: var(--gradient-mesh);
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: 
+      linear-gradient(hsl(var(--primary) / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--primary) / 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: 0;
+    animation: grid-flow 20s linear infinite;
+  }
+
+  @keyframes grid-flow {
+    0% {
+      transform: translate(0, 0);
+    }
+    100% {
+      transform: translate(50px, 50px);
+    }
+  }
+
+  @font-face {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400 700;
+    font-display: swap;
+    src: url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+  }
+}
+
+@layer utilities {
+  .glow-primary {
+    box-shadow: 0 0 40px hsla(var(--glow-primary)), 0 0 80px hsla(var(--glow-primary) / 0.3);
+  }
+  
+  .glow-secondary {
+    box-shadow: 0 0 40px hsla(var(--glow-secondary)), 0 0 80px hsla(var(--glow-secondary) / 0.3);
+  }
+  
+  .glow-accent {
+    box-shadow: 0 0 40px hsla(var(--glow-accent)), 0 0 80px hsla(var(--glow-accent) / 0.3);
+  }
+  
+  .glow-destructive {
+    box-shadow: 0 0 40px hsla(var(--glow-destructive)), 0 0 80px hsla(var(--glow-destructive) / 0.3);
+  }
+
+  .text-gradient-primary {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-shift 3s ease infinite;
+  }
+
+  .text-gradient-accent {
+    background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--info)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-gradient-primary {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+  }
+
+  .bg-gradient-accent {
+    background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--info)));
+  }
+
+  .glass-effect {
+    background: hsl(var(--card) / 0.3);
+    backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--border) / 0.5);
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s linear infinite;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--primary) / 0.1) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient-shift 5s ease infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      opacity: 1;
+      box-shadow: 0 0 30px hsla(var(--glow-primary)), 0 0 60px hsla(var(--glow-primary) / 0.3);
+    }
+    50% {
+      opacity: 0.9;
+      box-shadow: 0 0 50px hsla(var(--glow-primary)), 0 0 100px hsla(var(--glow-primary) / 0.5);
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: hsl(var(--primary));
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.6;
+    animation: particle-float 10s linear infinite;
+  }
+
+  @keyframes particle-float {
+    0% {
+      transform: translateY(0) translateX(0);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.6;
+    }
+    90% {
+      opacity: 0.6;
+    }
+    100% {
+      transform: translateY(-100vh) translateX(50px);
+      opacity: 0;
+    }
+  }
+
+  /* 3D Transform utilities */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+}
